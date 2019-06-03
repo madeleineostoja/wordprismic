@@ -1,6 +1,6 @@
 # Wordprismic
 
-![npm](https://img.shields.io/npm/v/wordprismic.svg)
+[![npm](https://img.shields.io/npm/v/wordprismic.svg)](https://npmjs.com/package/wordprismic)
 
 Wordprismic is a small and fully configurable Node utility for importing existing Wordpress blogs into the [Prismic.io](https://prismic.io) content platform.
 
