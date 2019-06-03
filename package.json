@@ -1,0 +1,33 @@
+{
+  "name": "wordprismic",
+  "version": "0.0.0",
+  "description": "Import and transform Wordpress blogs to Prismic.io",
+  "main": "index.js",
+  "scripts": {
+    "develop": "node ./index.js -c ./tmp/wordprismic.config.js -o ./tmp/result.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomorrowstudio/wordprismic.git"
+  },
+  "keywords": [
+    "wordpress",
+    "prismic",
+    "import",
+    "content migration"
+  ],
+  "author": "Tomorrow (tomorrowstudio.co)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomorrowstudio/wordprismic/issues"
+  },
+  "homepage": "https://github.com/tomorrowstudio/wordprismic#readme",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "fetch-paginate": "^3.1.0",
+    "node-fetch": "^2.6.0",
+    "prismic-javascript": "^2.0.3"
+  },
+  "devDependencies": {}
+}
