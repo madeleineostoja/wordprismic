@@ -28,11 +28,15 @@ Property            | Description
 module.exports = {
   wordpressUrl: 'https://myblog.com',
   prismicRepo: 'myNewBlog',
+  prismicCategories: 'category',
   schema: async function(post, htmlParser) {
     return {
       type: 'post',
       uid: post.slug,
-      topic: post.categories[0].prismic.uid,
+      category: {
+        id: post.categories[0].prismic.id,
+        mask: 'category'
+      },
       author: post.author.name,
       title: post.title.rendered,
       featuredImage: {
