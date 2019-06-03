@@ -24,7 +24,6 @@ Property            | Description
 `prismicCategories` | The content type of post categories in prismic, if available
 `schema`            | A function to transform Wordpress data to your Prismic content model, see documentation below
 
-`wordprismic.config.js`
 ```js
 module.exports = {
   wordpressUrl: 'https://myblog.com',
