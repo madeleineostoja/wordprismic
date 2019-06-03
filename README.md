@@ -51,7 +51,7 @@ The config schema describes how your Wordpress posts map to your Prismic content
   1. The imported post from Wordpress
   2. A helper function that transforms HTML strings into Prismic Richtext content
 
-See the Wordpress [Posts API Reference](https://developer.wordpress.org/rest-api/reference/posts/#schema) for all properties available on the `post` object provided. However, the following properties on `post` have been changed by Wordprismic:
+See the Wordpress [Posts API Reference](https://developer.wordpress.org/rest-api/reference/posts/#schema) for all properties available on the `post` object provided. However, the following properties on `post` have been **changed by Wordprismic**:
 - `author` is the full [user object](https://developer.wordpress.org/rest-api/reference/users/#schema), rather than just the ID
 - `featured_media` is the full URL of the asset, rather than just the ID
 - Each item in `categories` has been populated with a matching Prismic category if it's available (from `prismicCategories` type in config) as follows: `{ wordpress: [category], prismic: [document] }`
