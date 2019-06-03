@@ -80,3 +80,7 @@ wordprismic -c ./path/to/config.js -o ./path/to/output.json
 ```
 
 Then import the saved JSON file into prismic and you're done!
+
+---
+
+© MIT [Tomorrow](https://www.tomorrowstudio.co)
