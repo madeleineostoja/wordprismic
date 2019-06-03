@@ -4,11 +4,6 @@
 
 Wordprismic is a small and fully configurable Node utility for importing existing Wordpress blogs into the [Prismic.io](https://prismic.io) content platform.
 
-**Contents**
-- [Requirements](#requirements)
-- [Configuration](#configuration)
-  - [Defining your schema](#defining-your-schema)
-- [Importing](#importing)
 
 ## Requirements
 
