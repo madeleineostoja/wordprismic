@@ -2,9 +2,12 @@
   "name": "wordprismic",
   "version": "0.1.0",
   "description": "Import and transform Wordpress blogs to Prismic.io",
-  "main": "index.js",
+  "main": "./bin/index.js",
+  "bin": {
+    "wordprismic": "./bin/index.js"
+  },
   "scripts": {
-    "develop": "node ./index.js -c ./tmp/wordprismic.config.js -o ./tmp/result.json"
+    "develop": "node ./bin/index.js -c ./tmp/wordprismic.config.js -o ./tmp/result.json"
   },
   "repository": {
     "type": "git",

@@ -6,12 +6,8 @@ const {
   getSingleWp,
   mapCategories,
   htmlParser
-} = require('./lib/utils');
-const { config, output } = require('./lib/cli');
-
-/**
- * Run the importer
- */
+} = require('../lib/utils');
+const { config, output } = require('../lib/config');
 
 (async () => {
   const { schema } = config;
@@ -28,16 +24,16 @@ const { config, output } = require('./lib/cli');
     posts.map(async post => {
       let featuredMedia;
 
-      // if (post.featured_media) {
-      //   try {
-      //     featuredMedia = await getSingleWp('media', post.featured_media);
-      //   } catch (e) {
-      //     console.warn(chalk.red(e));
-      //   }
-      // }
+      if (post.featured_media) {
+        try {
+          featuredMedia = await getSingleWp('media', post.featured_media);
+        } catch (e) {
+          console.warn(chalk.red(e));
+        }
+      }
 
       Object.assign(post, {
-        // featured_media: featuredMedia ? featuredMedia.guid.rendered : '',
+        featured_media: featuredMedia ? featuredMedia.guid.rendered : '',
         author: users.find(user => user.id === post.author),
         categories: post.categories.map(category =>
           topics.find(topic => topic.wordpress.id === category)
