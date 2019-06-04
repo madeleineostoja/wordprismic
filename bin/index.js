@@ -5,7 +5,7 @@ const path = require('path');
 const chalk = require('chalk');
 const {
   getAllWp,
-  getSingleWp,
+  getSomeWp,
   mapCategories,
   htmlParser
 } = require('../lib/utils');
@@ -16,28 +16,27 @@ const { config, output } = require('../lib/config');
 
   console.log(chalk.yellow('Downloading content'));
 
-  const posts = await getAllWp('posts');
-  const users = await getAllWp('users');
-  const topics = await mapCategories();
+  const users = await getAllWp('users'),
+    posts = await getAllWp('posts'),
+    topics = await mapCategories(),
+    featuredMedias = await getSomeWp(
+      'media',
+      posts.map(post => post.featured_media)
+    );
 
   console.log(chalk.yellow('Parsing content'));
 
   Promise.all(
     posts.map(async post => {
-      let featuredMedia;
-
-      if (post.featured_media) {
-        try {
-          featuredMedia = await getSingleWp('media', post.featured_media);
-        } catch (e) {
-          console.warn(chalk.red(e));
-        }
-      }
+      const { featured_media, author, categories } = post,
+        featuredMedia = featuredMedias.find(media => {
+          return media.id === featured_media;
+        });
 
       Object.assign(post, {
-        featured_media: featuredMedia ? featuredMedia.guid.rendered : '',
-        author: users.find(user => user.id === post.author),
-        categories: post.categories.map(category =>
+        featured_media: !!featuredMedia ? featuredMedia : null,
+        author: users.find(user => user.id === author),
+        categories: categories.map(category =>
           topics.find(topic => topic.wordpress.id === category)
         )
       });
