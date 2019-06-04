@@ -39,8 +39,11 @@ module.exports = {
       },
       author: post.author.name,
       title: post.title.rendered,
-      featuredImage: {
-        origin: post.featured_media
+      featured_image: {
+        origin: {
+          url: post.featured_media.url
+        },
+        alt: post.featured_media.alt
       },
       excerpt: await htmlParser(post.excerpt.rendered),
       content: await htmlParser(post.content.rendered)
@@ -57,7 +60,7 @@ The config schema describes how your Wordpress posts map to your Prismic content
 
 See the Wordpress [Posts API Reference](https://developer.wordpress.org/rest-api/reference/posts/#schema) for all properties available on the `post` object provided. However, the following properties on `post` have been **changed by Wordprismic**:
 - `author` is the full [user object](https://developer.wordpress.org/rest-api/reference/users/#schema), rather than just the ID
-- `featured_media` is the full URL of the asset, rather than just the ID
+- `featured_media` is the [media object](https://developer.wordpress.org/rest-api/reference/media/#schema) object of the asset, rather than just the ID
 - Each item in `categories` has been populated with a matching Prismic category if it's available (from `prismicCategories` type in config) as follows: `{ wordpress: [category], prismic: [document] }`
 
 The HTML parser is **asynchronous**, so make sure you `await` it and flag your schema as `async`.

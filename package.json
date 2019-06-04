@@ -32,5 +32,7 @@
     "node-fetch": "^2.6.0",
     "prismic-javascript": "^2.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.3"
+  }
 }
