@@ -41,9 +41,9 @@ module.exports = {
       title: post.title.rendered,
       featured_image: {
         origin: {
-          url: post.featured_media.url
+          url: post.featured_media.guid.rendered
         },
-        alt: post.featured_media.alt
+        alt: post.featured_media.alt_text
       },
       excerpt: await htmlParser(post.excerpt.rendered),
       content: await htmlParser(post.content.rendered)
