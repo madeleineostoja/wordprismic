@@ -9,7 +9,10 @@ const {
   mapCategories,
   htmlParser
 } = require('../lib/utils');
-const { config, output } = require('../lib/config');
+const { config, dest } = require('../lib/config');
+
+const OUTPUT_FOLDER = 'wordprismic-import',
+  OUTPUT_PATH = path.join(process.cwd(), `${dest}${OUTPUT_FOLDER}`);
 
 (async () => {
   const { schema } = config;
@@ -22,19 +25,16 @@ const { config, output } = require('../lib/config');
     featuredMedias = await getSomeWp(
       'media',
       posts.map(post => post.featured_media)
-    );
+    ),
+    parsePost = async post => {
+      const { featured_media, author, categories } = post;
 
-  console.log(chalk.yellow('Parsing content'));
-
-  Promise.all(
-    posts.map(async post => {
-      const { featured_media, author, categories } = post,
-        featuredMedia = featuredMedias.find(media => {
-          return media.id === featured_media;
-        });
+      console.log(featuredMedias.length);
 
       Object.assign(post, {
-        featured_media: !!featuredMedia ? featuredMedia : null,
+        featured_media: featuredMedias.find(
+          media => media.id === featured_media
+        ),
         author: users.find(user => user.id === author),
         categories: categories.map(category =>
           topics.find(topic => topic.wordpress.id === category)
@@ -42,17 +42,33 @@ const { config, output } = require('../lib/config');
       });
 
       return await schema(post, htmlParser);
-    })
-  )
+    },
+    writePost = post =>
+      new Promise((resolve, reject) => {
+        fs.writeFile(
+          `${OUTPUT_PATH}/${post.uid}.json`,
+          JSON.stringify(post, null, 2),
+          err => {
+            err && reject(err);
+            resolve();
+          }
+        );
+      });
+
+  console.log(chalk.yellow('Parsing content'));
+
+  Promise.all(posts.map(parsePost))
     .then(posts => {
-      fs.writeFile(
-        path.join(process.cwd(), output),
-        JSON.stringify(posts, null, 2),
-        'utf8',
-        () => {
-          console.log(chalk.green(`Finished! Saved to ${output}`));
-        }
-      );
+      console.log(chalk.yello('Writing files'));
+      !fs.existsSync(OUTPUT_PATH) && fs.mkdirSync(OUTPUT_PATH);
+      return Promise.all(posts.map(writePost));
     })
+    .then(() =>
+      console.log(
+        chalk.green(
+          `Finished! Zip the folder at ${dest}${OUTPUT_FOLDER} and import to Prismic`
+        )
+      )
+    )
     .catch(err => console.log(chalk.red(err)));
 })();

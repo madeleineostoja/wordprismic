@@ -70,12 +70,12 @@ The HTML parser is **asynchronous**, so make sure you `await` it and flag your s
 You can now run the importer directly from NPM, with the following arguments
 
 Argument          | Description
-------------------|---------------------------------------
+------------------|-------------------------------------------------------------------------
 `--config` (`-c`) | Path to your config file
-`--output` (`-o`) | Location to save the Prismic JSON file
+`--dest` (`-d`)   | Location to save zip archive for imorting, defaults to current directory
 
 ```sh
-npx wordprismic -c ./path/to/config.js -o ./path/to/output.json
+npx wordprismic -c ./path/to/config.js
 ```
 
 Or if you'd prefer, install the module globally first
@@ -83,10 +83,10 @@ Or if you'd prefer, install the module globally first
 ```sh
 npm i -g wordprismic
 
-wordprismic -c ./path/to/config.js -o ./path/to/output.json
+wordprismic -c ./path/to/config.js
 ```
 
-Then import the saved JSON file into prismic and you're done!
+Your new Prismic posts will be saved to in a folder called `wordprismic-import`. Compress this to a `.zip` archive, then import it to Prismic.
 
 ---
 

@@ -7,7 +7,7 @@
     "wordprismic": "./bin/index.js"
   },
   "scripts": {
-    "develop": "node ./bin/index.js -c ./tmp/wordprismic.config.js -o ./tmp/result.json"
+    "develop": "node ./bin/index.js -c ./tmp/wordprismic.config.js -d ./tmp/"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/tomorrowstudio/wordprismic#readme",
   "dependencies": {
+    "adm-zip": "^0.4.13",
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "fetch-paginate": "^3.1.0",
