@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const mkdirp = require('mkdirp');
 const {
   getAllWp,
   getSomeWp,
@@ -28,8 +29,6 @@ const OUTPUT_FOLDER = 'wordprismic-import',
     ),
     parsePost = async post => {
       const { featured_media, author, categories } = post;
-
-      console.log(featuredMedias.length);
 
       Object.assign(post, {
         featured_media: featuredMedias.find(
@@ -59,14 +58,14 @@ const OUTPUT_FOLDER = 'wordprismic-import',
 
   Promise.all(posts.map(parsePost))
     .then(posts => {
-      console.log(chalk.yello('Writing files'));
-      !fs.existsSync(OUTPUT_PATH) && fs.mkdirSync(OUTPUT_PATH);
+      console.log(chalk.yellow('Writing files'));
+      !fs.existsSync(OUTPUT_PATH) && mkdirp.sync(OUTPUT_PATH);
       return Promise.all(posts.map(writePost));
     })
     .then(() =>
       console.log(
         chalk.green(
-          `Finished! Zip the folder at ${dest}${OUTPUT_FOLDER} and import to Prismic`
+          `Finished! Compress the folder at ${dest}${OUTPUT_FOLDER} into a zip and import to Prismic`
         )
       )
     )

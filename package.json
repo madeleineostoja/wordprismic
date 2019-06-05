@@ -26,10 +26,10 @@
   },
   "homepage": "https://github.com/tomorrowstudio/wordprismic#readme",
   "dependencies": {
-    "adm-zip": "^0.4.13",
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "fetch-paginate": "^3.1.0",
+    "mkdirp": "^0.5.1",
     "node-fetch": "^2.6.0",
     "prismic-javascript": "^2.0.3"
   },
