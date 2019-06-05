@@ -17,18 +17,24 @@ Make sure you meet the following requirements before using the importer:
 
 Create a JavaScript configuration file with the following properties
 
-Property            | Description
---------------------|----------------------------------------------------------------------------------------------
-`wordpressUrl`      | The full URL of your wordpress blog
-`prismicRepo`       | The name of your Prismic repository
-`prismicCategories` | The content type of post categories in prismic, if available
-`schema`            | A function to transform Wordpress data to your Prismic content model, see documentation below
+Property                            | Description
+------------------------------------|-------------------------------------------------------------------------------------------------------------
+`wordpress.url`                     | The full URL of your wordpress blog
+`prismic.repo`                      | The name of your Prismic repository
+`prismic.locale`                    | The locale of language locale of your imported documents in Prismic (see Settings -> Translations & locales)
+`prismic.categoriesType` (optional) | The content type of post categories in prismic, if available
+`schema`                            | A function to transform Wordpress data to your Prismic content model, see documentation below
 
 ```js
 module.exports = {
-  wordpressUrl: 'https://myblog.com',
-  prismicRepo: 'myNewBlog',
-  prismicCategories: 'category',
+  wordpress: {
+    url: 'https://myblog.com'
+  },
+  prismic: {
+    repo: 'myNewBlog',
+    locale: 'en-au',
+    categoriesType: 'category'
+  }
   schema: async function(post, htmlParser) {
     return {
       type: 'post',

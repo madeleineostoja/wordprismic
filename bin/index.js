@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const mkdirp = require('mkdirp');
+const uuid = require('uuid/v4');
 const {
   getAllWp,
   getSomeWp,
@@ -45,7 +46,7 @@ const OUTPUT_FOLDER = 'wordprismic-import',
     writePost = post =>
       new Promise((resolve, reject) => {
         fs.writeFile(
-          `${OUTPUT_PATH}/${post.uid}.json`,
+          `${OUTPUT_PATH}/new_${uuid()}_${config.prismic.locale}.json`,
           JSON.stringify(post, null, 2),
           err => {
             err && reject(err);

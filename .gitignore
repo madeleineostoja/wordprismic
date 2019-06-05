@@ -4,3 +4,4 @@ node_modules
 # Runtime
 tmp
 *.log
+.DS_Store

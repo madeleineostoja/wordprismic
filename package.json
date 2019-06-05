@@ -31,7 +31,8 @@
     "fetch-paginate": "^3.1.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.6.0",
-    "prismic-javascript": "^2.0.3"
+    "prismic-javascript": "^2.0.3",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.3"
