@@ -92,7 +92,7 @@ npm i -g wordprismic
 wordprismic -c ./path/to/config.js
 ```
 
-Your new Prismic posts will be saved to in a folder called `wordprismic-import`. Compress this to a `.zip` archive, then import it to Prismic.
+Your new Prismic posts will be saved to in a folder called `wordprismic-import`. Compress the **contents** (not the folder itself) to a `.zip` archive, then import it to Prismic.
 
 ---
 
