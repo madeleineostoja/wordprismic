@@ -5,12 +5,7 @@ const path = require('path');
 const chalk = require('chalk');
 const mkdirp = require('mkdirp');
 const uuid = require('uuid/v4');
-const {
-  getAllWp,
-  getSomeWp,
-  mapCategories,
-  htmlParser
-} = require('../lib/utils');
+const { getAllWp, mapCategories, htmlParser } = require('../lib/utils');
 const { config, dest } = require('../lib/config');
 
 const OUTPUT_FOLDER = 'wordprismic-import',
@@ -24,10 +19,13 @@ const OUTPUT_FOLDER = 'wordprismic-import',
   const users = await getAllWp('users'),
     posts = await getAllWp('posts'),
     topics = await mapCategories(),
-    featuredMedias = await getSomeWp(
+    // NOTE: Pagniation on 'include' queries 503s on some servers,
+    // just remove the query and fetch all media instead
+    featuredMedias = await getAllWp(
       'media',
-      posts.map(post => post.featured_media)
+      `include=${posts.map(post => post.featured_media).join(',')}`
     ),
+    featuredMedias = await getAllWp('media'),
     parsePost = async post => {
       const { featured_media, author, categories } = post;
 
