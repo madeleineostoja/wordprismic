@@ -18,11 +18,12 @@ Make sure you meet the following requirements before using the importer:
 Create a JavaScript configuration file with the following properties
 
 Property                            | Description
-------------------------------------|-------------------------------------------------------------------------------------------------------------
+------------------------------------|----------------------------------------------------------------------------------------------------------------------------------
 `wordpress.url`                     | The full URL of your wordpress blog
 `prismic.repo`                      | The name of your Prismic repository
 `prismic.locale`                    | The locale of language locale of your imported documents in Prismic (see Settings -> Translations & locales)
 `prismic.categoriesType` (optional) | The content type of post categories in prismic, if available
+`optimizeMediaRequests` (optional)  | Whether to attempt to only fetch required media assets. Shortens import time, but can cause 503 errors on some Wordpress servers.
 `schema`                            | A function to transform Wordpress data to your Prismic content model, see documentation below
 
 ```js
@@ -34,8 +35,9 @@ module.exports = {
     repo: 'myNewBlog',
     locale: 'en-au',
     categoriesType: 'category'
-  }
-  schema: async function(post, htmlParser) {
+  },
+  optimizeMediaRequests: false,
+  schema: async function(post, html) {
     return {
       type: 'post',
       uid: post.slug,
@@ -44,15 +46,15 @@ module.exports = {
         mask: 'category'
       },
       author: post.author.name,
-      title: post.title.rendered,
+      title: html.decode(post.title.rendered),
       featured_image: {
         origin: {
           url: post.featured_media.guid.rendered
         },
         alt: post.featured_media.alt_text
       },
-      excerpt: await htmlParser(post.excerpt.rendered),
-      content: await htmlParser(post.content.rendered)
+      excerpt: await html.parse(post.excerpt.rendered),
+      content: await html.parse(post.content.rendered)
     };
   }
 };
@@ -62,14 +64,14 @@ module.exports = {
 
 The config schema describes how your Wordpress posts map to your Prismic content model. It's written as a function that is given two paramaters:
   1. The imported post from Wordpress
-  2. A helper function that transforms HTML strings into Prismic Richtext content
+  2. Helper functions `html.parse()`, which creates Prismic RichText objects out of HTML strings, and `html.decode()`, which decodes HTML strings with entities
 
 See the Wordpress [Posts API Reference](https://developer.wordpress.org/rest-api/reference/posts/#schema) for all properties available on the `post` object provided. However, the following properties on `post` have been **changed by Wordprismic**:
 - `author` is the full [user object](https://developer.wordpress.org/rest-api/reference/users/#schema), rather than just the ID
 - `featured_media` is the [media object](https://developer.wordpress.org/rest-api/reference/media/#schema) object of the asset, rather than just the ID
 - Each item in `categories` has been populated with a matching Prismic category if it's available (from `prismicCategories` type in config) as follows: `{ wordpress: [category], prismic: [document] }`
 
-The HTML parser is **asynchronous**, so make sure you `await` it and flag your schema as `async`.
+The `html.parse()` function is **asynchronous**, so make sure you `await` it and flag your schema as `async`.
 
 ## Importing
 
